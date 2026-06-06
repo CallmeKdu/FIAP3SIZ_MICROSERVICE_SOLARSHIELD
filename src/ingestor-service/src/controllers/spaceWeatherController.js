@@ -3,6 +3,7 @@ import { calculateSeverity } from '../domain/rn1_severity.js';
 import { countHazardousAsteroids } from '../domain/rn2_asteroids.js';
 import { publishEvent } from '../integrations/rabbitmqClient.js';
 import redisClient from '../integrations/redisClient.js';
+import { v4 as uuidv4 } from 'uuid';
 
 // Format YYYY-MM-DD
 const formatDate = (date) => date.toISOString().split('T')[0];
@@ -16,12 +17,12 @@ const processSpaceWeatherEvents = async (startDate, endDate) => {
 
     const payload = {
       event_id: event.gstID || event.messageID,
-      startTime: event.startTime,
-      severityInfo,
-      hazardousAsteroidsCount: 0,
+      start_time: event.startTime,
+      severity_info: severityInfo,
+      hazardous_asteroids_count: 0,
     };
 
-    if (severityInfo.severityLevel === 'severe') {
+    if (severityInfo.severity_level === 'severe') {
       const eventDate = new Date(event.startTime);
       const startNeo = new Date(eventDate);
       startNeo.setDate(eventDate.getDate() - 1);
@@ -33,7 +34,7 @@ const processSpaceWeatherEvents = async (startDate, endDate) => {
 
       try {
         const neoResponse = await fetchHazardousAsteroids(neoStart, neoEnd);
-        payload.hazardousAsteroidsCount = countHazardousAsteroids(neoResponse);
+        payload.hazardous_asteroids_count = countHazardousAsteroids(neoResponse);
       } catch (error) {
         console.error(`Error fetching NEO for event ${payload.event_id}`, error.message);
       }
@@ -42,7 +43,7 @@ const processSpaceWeatherEvents = async (startDate, endDate) => {
   }
 
   // Sort events by startTime descending to easily get the latest one
-  processedEvents.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
+  processedEvents.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
 
   return processedEvents;
 };
@@ -72,10 +73,10 @@ export const ingestSpaceWeather = async (req, res) => {
       );
     }
 
-    return res.status(200).json({
-      message: 'Ingestion completed successfully.',
-      processedCount: processedEvents.length,
-      events: processedEvents,
+    const ingestionId = uuidv4();
+    return res.status(202).json({
+      event_id: ingestionId,
+      status: 'queued'
     });
   } catch (error) {
     console.error('Error during ingestion:', error);
@@ -89,6 +90,7 @@ export const getCurrentSpaceWeather = async (req, res) => {
     const cachedData = await redisClient.get('current_space_weather');
 
     if (cachedData) {
+      res.setHeader('X-Cache', 'HIT');
       return res.status(200).json(JSON.parse(cachedData));
     }
 
@@ -101,6 +103,8 @@ export const getCurrentSpaceWeather = async (req, res) => {
     const endDate = formatDate(end);
 
     const processedEvents = await processSpaceWeatherEvents(startDate, endDate);
+
+    res.setHeader('X-Cache', 'MISS');
 
     if (processedEvents.length > 0) {
       const latestEvent = processedEvents[0];
