@@ -1,5 +1,5 @@
 import amqp from 'amqplib';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 
 let channel = null;
 
@@ -26,7 +26,7 @@ export const publishEvent = async (routingKey, message) => {
   }
 
   try {
-    const messageId = uuidv4();
+    const messageId = randomUUID();
     channel.publish(
       'space.events',
       routingKey,

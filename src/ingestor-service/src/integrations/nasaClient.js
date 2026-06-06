@@ -1,6 +1,6 @@
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 
 const nasaClient = axios.create({
   baseURL: 'https://api.nasa.gov',
@@ -12,7 +12,7 @@ nasaClient.interceptors.request.use((config) => {
   config.params = config.params || {};
   config.params.api_key = process.env.NASA_API_KEY || 'DEMO_KEY';
   config.headers = config.headers || {};
-  config.headers['x-correlation-id'] = uuidv4();
+  config.headers['x-correlation-id'] = randomUUID();
   return config;
 });
 
