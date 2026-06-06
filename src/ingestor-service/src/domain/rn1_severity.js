@@ -11,9 +11,9 @@ export const calculateSeverity = (donkiEvent) => {
   // Se não tem Kp, não é possível classificar
   if (kp === null || kp === undefined) {
     return {
-      kpIndex: null,
-      severityLevel: 'unknown',
-      emergencyNotification: false
+      kp_index: null,
+      severity_level: 'unknown',
+      emergency_notification: false
     };
   }
 
@@ -32,8 +32,8 @@ export const calculateSeverity = (donkiEvent) => {
   }
 
   return {
-    kpIndex: kp,
-    severityLevel,
-    emergencyNotification
+    kp_index: kp,
+    severity_level: severityLevel,
+    emergency_notification: emergencyNotification
   };
 };
