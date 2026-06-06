@@ -3,7 +3,7 @@ import { calculateSeverity } from '../domain/rn1_severity.js';
 import { countHazardousAsteroids } from '../domain/rn2_asteroids.js';
 import { publishEvent } from '../integrations/rabbitmqClient.js';
 import redisClient from '../integrations/redisClient.js';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 
 // Format YYYY-MM-DD
 const formatDate = (date) => date.toISOString().split('T')[0];
@@ -73,7 +73,7 @@ export const ingestSpaceWeather = async (req, res) => {
       );
     }
 
-    const ingestionId = uuidv4();
+    const ingestionId = randomUUID();
     return res.status(202).json({
       event_id: ingestionId,
       status: 'queued'
