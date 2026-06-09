@@ -1,4 +1,5 @@
 import amqp from 'amqplib';
+import { randomUUID } from 'node:crypto';
 
 let channel = null;
 
@@ -25,10 +26,17 @@ export const publishEvent = async (routingKey, message) => {
   }
 
   try {
+    const messageId = randomUUID();
     channel.publish(
       'space.events',
       routingKey,
-      Buffer.from(JSON.stringify(message))
+      Buffer.from(JSON.stringify(message)),
+      {
+        persistent: true,
+        messageId: messageId,
+        contentType: 'application/json',
+        headers: { 'x-event-id': messageId }
+      }
     );
     return true;
   } catch (error) {

@@ -2,13 +2,15 @@ import 'dotenv/config';
 import express from 'express';
 import { connectRabbitMQ } from './src/integrations/rabbitmqClient.js';
 import spaceWeatherRoutes from './src/routes/spaceWeatherRoutes.js';
+import { getNeoFeed } from './src/controllers/neoController.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 
 app.use('/api/space-weather', spaceWeatherRoutes);
+app.get('/api/neo/feed', getNeoFeed);
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
