@@ -1,0 +1,24 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CallmeKdu/FIAP3SIZ_MICROSERVICE_SOLARSHIELD.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/CallmeKdu/FIAP3SIZ_MICROSERVICE_SOLARSHIELD/issues"
+  },
+  "homepage": "https://github.com/CallmeKdu/FIAP3SIZ_MICROSERVICE_SOLARSHIELD#readme",
+  "devDependencies": {
+    "jest": "^30.4.2"
+  }
+}
