@@ -9,8 +9,16 @@
 Sistema construído para consumir dados de clima espacial da NASA, classificar a severidade e disparar alertas operacionais.
 
 ## Arquitetura
-<img width="6478" height="1179" alt="Untitled diagram-2026-06-10-022229" src="https://github.com/user-attachments/assets/9def9eb8-69a8-486d-8a9e-53ddaa96121f" />
-
+```mermaid
+flowchart LR
+Cliente["Cliente HTTP"] --> Nginx["Nginx API Gateway"]
+Nginx --> Ingestor["ingestor-service"]
+Ingestor --> NASA["NASA DONKI + NEO"]
+Ingestor --> Redis[("Redis")]
+Ingestor ==publish==> Rabbit[["RabbitMQ space.events"]]
+Rabbit ==consume==> Notifier["notifier-service"]
+Notifier --> Redis
+Notifier --> Email["Canal de alerta"]
 
 ## Regras de negócio
 * RN1: classificação por Kp
