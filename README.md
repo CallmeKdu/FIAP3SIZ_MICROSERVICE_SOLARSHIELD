@@ -1,9 +1,6 @@
 # Solar Shield: Microsserviços de Clima Espacial
 
-## Integrantes
-* Carlos : responsável por (preencher área)
-* Jules : responsável por testes
-* (Nome 3) : responsável por (preencher área)
+
 
 ## Visão geral
 Sistema construído para consumir dados de clima espacial da NASA, classificar a severidade e disparar alertas operacionais.
