@@ -1,7 +1,7 @@
 # Solar Shield: Microsserviços de Clima Espacial
-
-
-
+https://github.com/BrunaOGomes
+https://github.com/Mauro0805
+https://github.com/CallmeKdu
 ## Visão geral
 Sistema construído para consumir dados de clima espacial da NASA, classificar a severidade e disparar alertas operacionais.
 
