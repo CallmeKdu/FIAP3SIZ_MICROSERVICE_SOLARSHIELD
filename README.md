@@ -9,6 +9,7 @@
 Sistema construído para consumir dados de clima espacial da NASA, classificar a severidade e disparar alertas operacionais.
 
 ## Arquitetura
+
 ```mermaid
 flowchart LR
 Cliente["Cliente HTTP"] --> Nginx["Nginx API Gateway"]
