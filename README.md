@@ -18,6 +18,7 @@ flowchart LR
     Rabbit ==consume==> Notifier["notifier-service"]
     Notifier --> Redis
     Notifier --> Email["Canal de alerta"]
+    
 
 ## Regras de negócio
 * RN1: classificação por Kp
