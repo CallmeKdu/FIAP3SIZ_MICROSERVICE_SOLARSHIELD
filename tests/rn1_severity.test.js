@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { calculateSeverity } from '../rn1_severity.js';
+import { calculateSeverity } from '../src/ingestor-service/src/domain/rn1_severity.js';
 
 // Testes unitários para a RN1 - Cálculo de Severidade da Tempestade Geomagnética
 

@@ -1,0 +1,14 @@
+{
+  "name": "solar-shield",
+  "version": "1.0.0",
+  "description": "Solar Shield Tests",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "amqplib": "^2.0.1",
+    "esmock": "^2.7.6",
+    "ioredis": "^5.11.1"
+  }
+}
